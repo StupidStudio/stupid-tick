@@ -1,0 +1,39 @@
+{
+  "name": "stupid-tick",
+  "version": "1.0.0",
+  "description": "A RAF controller",
+  "main": "./tick.js",
+  "scripts": {
+    "test": "tap-prettify test/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StupidStudio/stupid-tick.git"
+  },
+  "author": "David Adalberth Andersen <david@stupid-studio.com> (http://stupid-studio.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/StupidStudio/stupid-tick/issues"
+  },
+  "homepage": "https://github.com/StupidStudio/stupid-tick#readme",
+  "devDependencies": {
+    "browserify": "^12.0.1",
+    "gulp": "^3.9.0",
+    "gulp-livereload": "^3.8.1",
+    "tap-prettify": "0.0.2",
+    "tape": "^4.2.2",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.6.1"
+  },
+  "dependencies": {
+    "browserify": "^12.0.1",
+    "gulp": "^3.9.0",
+    "tap-prettify": "^0.0.2",
+    "gulp-livereload": "^3.8.1",
+    "tape": "^4.2.2",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.6.1"
+  }
+}
