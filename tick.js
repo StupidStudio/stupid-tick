@@ -4,36 +4,6 @@
  */
 
 /**
- * RAF Polyfill
- */
-var window = window || {};
-var lastTime = 0;
-var id;
-var vendors = ['ms', 'moz', 'webkit', 'o'];
-for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
-    window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
-    window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame'] 
-                               || window[vendors[x]+'CancelRequestAnimationFrame'];
-}
-
-if (!window.requestAnimationFrame){
-    window.requestAnimationFrame = function(callback, element) {
-        var currTime = new Date().getTime();
-        var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-        id = setTimeout(function() { callback(currTime + timeToCall); }, 
-          timeToCall);
-        lastTime = currTime + timeToCall;
-        return id;
-    };
-}
-
-if (!window.cancelAnimationFrame){
-     window.cancelAnimationFrame = function() {
-        clearTimeout(id);
-    };
-}       
-
-/**
  * Deferred
  * @constructor
  * @param {object} opts Options for the constructor
@@ -111,7 +81,7 @@ function Tick(opts) {
         }
 
         /** Runs requestAnimationFrame for continues loop */
-        raf = window.requestAnimationFrame(render);
+        raf = requestAnimationFrame(render);
     }
 
     /** Update run all the callbacks stored in collection */
@@ -130,7 +100,7 @@ function Tick(opts) {
     /** Stops the render loop */
     function stop(){
         isStopped = true;
-        if(raf) window.cancelAnimationFrame(raf);
+        if(raf) cancelAnimationFrame(raf);
     }
 
     /** Checks if Tick should stop or start if collection is empty */

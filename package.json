@@ -4,7 +4,7 @@
   "description": "A RAF controller",
   "main": "./tick.js",
   "scripts": {
-    "test": "tap-prettify test/*.js"
+    "test": "browserify test/*.js | tape-run --render=\"faucet\""
   },
   "repository": {
     "type": "git",
@@ -18,14 +18,15 @@
   "homepage": "https://github.com/StupidStudio/stupid-tick#readme",
   "devDependencies": {
     "browserify": "^12.0.1",
+    "faucet": "0.0.1",
     "gulp": "^3.9.0",
     "gulp-livereload": "^3.8.1",
-    "tap-prettify": "0.0.2",
+    "tap-dot": "^1.0.0",
     "tape": "^4.2.2",
+    "tape-run": "^2.1.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.6.1"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
