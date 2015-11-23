@@ -3,19 +3,41 @@
  * @author david@stupid-studio.com (David Adalberth Andersen)
  */
 
- /**
+/**
+ * RAF Polyfill
+ */
+var window = window || {};
+var lastTime = 0;
+var id;
+var vendors = ['ms', 'moz', 'webkit', 'o'];
+for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+    window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+    window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame'] 
+                               || window[vendors[x]+'CancelRequestAnimationFrame'];
+}
+
+if (!window.requestAnimationFrame){
+    window.requestAnimationFrame = function(callback, element) {
+        var currTime = new Date().getTime();
+        var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+        id = setTimeout(function() { callback(currTime + timeToCall); }, 
+          timeToCall);
+        lastTime = currTime + timeToCall;
+        return id;
+    };
+}
+
+if (!window.cancelAnimationFrame){
+     window.cancelAnimationFrame = function() {
+        clearTimeout(id);
+    };
+}       
+
+/**
  * Deferred
  * @constructor
  * @param {object} opts Options for the constructor
  */
-var to;
-var requestAnimationFrame = function( callback ){
-    to = setTimeout(callback, 1000 / 60);
-};
-var cancelAnimationFrame = function( callback ){
-    clearTimeout(to);
-};
-
 function Tick(opts) {
     /**
      * @define {object} Collection of public methods.
@@ -63,12 +85,19 @@ function Tick(opts) {
     var interval = 1000/fps;
 
     /**
+     * @define {boolean} Control is the loop should run
+     */
+    var isStopped = false;
+
+    /**
      * Renders update function at fps giving above
      * @param {type} varname description
      * @config {number} now Set the current time
      * @config {number} delta Calculates the difference between now and then
      */
     function render() {
+        if (isStopped) return;
+
         now = Date.now();
         delta = now - then;
         /**
@@ -80,8 +109,9 @@ function Tick(opts) {
             /** run updates */
             update();
         }
+
         /** Runs requestAnimationFrame for continues loop */
-        raf = requestAnimationFrame(render);
+        raf = window.requestAnimationFrame(render);
     }
 
     /** Update run all the callbacks stored in collection */
@@ -93,13 +123,14 @@ function Tick(opts) {
 
     /** Stars the render loop */
     function start(){
-        if(!raf) render();
+        isStopped = false;
+        render();
     }
 
     /** Stops the render loop */
     function stop(){
-        cancelAnimationFrame(raf);
-        raf = false;
+        isStopped = true;
+        if(raf) window.cancelAnimationFrame(raf);
     }
 
     /** Checks if Tick should stop or start if collection is empty */
