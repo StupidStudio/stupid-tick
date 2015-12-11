@@ -3,6 +3,7 @@
  * @author david@stupid-studio.com (David Adalberth Andersen)
  */
 
+var Callctrl = require('stupid-callctrl');
 /**
  * Deferred
  * @constructor
@@ -50,6 +51,11 @@ function Tick(opts) {
     var fps = opts.fps || 60;
 
     /**
+     * @define {boolean} Should stop when collection is empty
+     */
+    var autoPlayStop = opts.autoPlayStop || false;
+
+    /**
      * @define {number} Converting fps to miliseconds
      */
     var interval = 1000/fps;
@@ -58,6 +64,13 @@ function Tick(opts) {
      * @define {boolean} Control is the loop should run
      */
     var isStopped = false;
+
+    /**
+     * @define {object} Create a once callback
+     */
+    var startOnce = Callctrl.once(function(){
+        start();
+    });
 
     /**
      * Renders update function at fps giving above
@@ -101,14 +114,19 @@ function Tick(opts) {
     function stop(){
         isStopped = true;
         if(raf) cancelAnimationFrame(raf);
+        startOnce.reset();
     }
 
     /** Checks if Tick should stop or start if collection is empty */
     function shouldPlayOrPause() {
-        if(collection.length){
-            start();
+        if(autoPlayStop){
+            if(collection.length){
+                start();
+            }else{
+                stop();
+            }
         }else{
-            stop();
+            startOnce.trigger();
         }
     }
 

@@ -28,5 +28,7 @@
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.6.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "stupid-callctrl": "^1.0.0"
+  }
 }
