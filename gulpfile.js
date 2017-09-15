@@ -11,7 +11,7 @@ var browserify = 	require('browserify');
  */
 var settings = {
 	build: './dist',
-	source: './src'
+	source: './'
 };
 
 var liveTestSettings = {
@@ -35,6 +35,14 @@ gulp.task('live-test', function(){
 	.pipe(buffer())
 	.pipe(gulp.dest(liveTestSettings.build + '/js'))
 	.pipe(livereload());
+});
+
+gulp.task('build', function(){
+	return watchify(browserify(settings.source + '/tick.js')).bundle()
+	.on('error', function(err){ console.log(err.message); this.emit('end');})
+	.pipe(source('tick.js'))
+	.pipe(buffer())
+	.pipe(gulp.dest(settings.build))
 });
 
 /*

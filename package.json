@@ -21,6 +21,7 @@
     "faucet": "0.0.1",
     "gulp": "^3.9.0",
     "gulp-livereload": "^3.8.1",
+    "lodash": "^4.17.4",
     "tap-dot": "^1.0.0",
     "tape": "^4.2.2",
     "tape-run": "^2.1.0",
