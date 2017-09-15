@@ -251,5 +251,7 @@ function Tick(opts) {
 }
 
 /** @export */
+window.stupid = window.stupid || {} 
+window.stupid.Tick = Tick
 module.exports = Tick;
 },{"stupid-callctrl":1}]},{},[2]);

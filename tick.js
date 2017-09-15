@@ -164,4 +164,6 @@ function Tick(opts) {
 }
 
 /** @export */
+window.stupid = window.stupid || {} 
+window.stupid.Tick = Tick
 module.exports = Tick;
